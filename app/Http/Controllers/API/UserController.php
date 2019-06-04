@@ -14,18 +14,18 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\Response 
      */
-    public function login()
+    public function login(Request $request)
     {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
-            return $this->successResponse(
-                $success,
-                'Login successfully'
-            );
-            // return response()->json(['success' => $success], $this->successStatus);
+        // $this->validate($request, ['email' => 'required|email', 'password' => 'required|min:6|max:20',], ['email.required' => 'Vui lòng nhập email', 'email.email' => 'Email không đúng định dạng', 'password.required' => 'Vui lòng nhập mật khẩu', 'password.min' => 'Mật khẩu ít nhất 6 kí tự', 'password.max' => 'Mật khẩu không quá 20 kí tự']);
+        // if ($validator->fails()) {
+        //     return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
+        // }
+        $email = $request->email;
+        $password = $request->password;
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            return redirect('a.com');
         } else {
-            return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
+            // return redirect('login')->with('status', 'Please try again!');
         }
     }
     /** 
