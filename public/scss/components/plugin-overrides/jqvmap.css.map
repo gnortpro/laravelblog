@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,+BAAgC;EAC9B,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI",
+"sources": ["jqvmap.scss"],
+"names": [],
+"file": "jqvmap.css"
+}

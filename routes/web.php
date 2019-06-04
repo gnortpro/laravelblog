@@ -10,13 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/blog', 'PostController@index');
+Route::get('/', 'HomeController@index')->name('home');
+Route::prefix('posts')->group(function () {
+    Route::get('/', 'PostController@index')->name('posts');
+    Route::get('/categories', 'PostController@categories')->name('posts-categories');
+    Route::get('/tags', 'PostController@tags')->name('posts-tags');
+});
+// Route::get('/posts', 'PostController@index')->name('posts');
 // Route::post('/submitpost', 'PostController@submitPost')->name('submitpost');

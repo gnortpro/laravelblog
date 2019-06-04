@@ -13,11 +13,41 @@ class PostController extends Controller
 	{
 		$this->middleware('auth');
 	}
-	public function index()
+	public function index(Request $request)
 	{
-		$posts = Post::get();
-		return view('post.index', ['posts' => $posts]);
+		if (null != $request->query('action')) {
+			$action = $request->query('action');
+			switch ($action) {
+				case 'add':
+					return view('post.action.add');
+					break;
+				case 'edit':
+					return view('post.action.edit');
+					break;
+				case 'delete':
+					// return view('post.delete');
+					break;
+				default:
+					abort(404);
+			}
+		} else {
+			$posts = Post::get();
+			return view('post.index', ['posts' => $posts]);
+		}
 	}
+
+	public function categories()
+	{
+		// $posts = Post::get();
+		return view('post.categories');
+	}
+
+	public function tags()
+	{
+		// $posts = Post::get();
+		return view('post.tags');
+	}
+
 	public function submitPost(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
