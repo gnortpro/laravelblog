@@ -15,6 +15,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::prefix('posts')->group(function () {
     Route::get('/', 'PostController@index')->name('posts');
+    Route::get('/{slug?}', 'PostController@index')->name('single-posts');
     Route::get('/categories', 'PostController@categories')->name('posts-categories');
     Route::get('/tags', 'PostController@tags')->name('posts-tags');
 });

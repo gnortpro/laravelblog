@@ -13,7 +13,7 @@ class PostController extends Controller
 	{
 		$this->middleware('auth');
 	}
-	public function index(Request $request)
+	public function index(Request $request, $slug = null)
 	{
 		if (null != $request->query('action')) {
 			$action = $request->query('action');
@@ -22,7 +22,13 @@ class PostController extends Controller
 					return view('post.action.add');
 					break;
 				case 'edit':
-					return view('post.action.edit');
+					$post_by_slug = Post::where('slug', $slug)->first();
+					if (null != $post_by_slug) {
+						return view('post.action.edit', ['post_by_slug' =>  $post_by_slug]);
+					} else {
+						abort(404);
+					}
+
 					break;
 				case 'delete':
 					// return view('post.delete');
