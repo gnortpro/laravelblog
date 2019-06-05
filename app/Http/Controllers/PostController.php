@@ -11,7 +11,7 @@ class PostController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth');
+		// $this->middleware('auth');
 	}
 	public function index(Request $request, $slug = null)
 	{
@@ -59,14 +59,15 @@ class PostController extends Controller
 		$validator = Validator::make($request->all(), [
 			'post_name' => 'required',
 			'post_content' => 'required',
-			'post_thumbnail' => 'required'
+			'post_thumbnail' => 'required',
+			'post_author' => 'required'
 		]);
 		if ($validator->fails()) {
 			return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
 		}
 		$post = new Post([
 			'name' => $request->get('post_name'),
-			'author_id' => Auth::id(),
+			'author_id' => $request->get('post_author'),
 			'content' => $request->get('post_content'),
 			'thumbnail' => $request->get('post_thumbnail'),
 			'slug' => str_slug($request->get('post_name'))

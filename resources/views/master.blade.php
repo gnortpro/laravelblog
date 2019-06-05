@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="{{asset('/node_modules/perfect-scrollbar/css/perfect-scrollbar.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{asset('/node_modules/icheck/skins/all.css')}}">
+  {{-- <link rel="stylesheet" href="{{asset('/node_modules/sweetalert/dist/sweetalert2.min.css')}}"> --}}
   <!-- endinject -->
   <!-- plugin css for this page -->
   <link rel="stylesheet" href="{{asset('/node_modules/jvectormap/jquery-jvectormap.css')}}" />
@@ -59,6 +60,7 @@
   <script src="{{asset('/node_modules/chart.js/dist/Chart.min.js')}}"></script>
   <script src="{{asset('/node_modules/jvectormap/jquery-jvectormap.min.js')}}"></script>
   <script src="{{asset('/node_modules/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js')}}"></script>
+  <script src="{{asset('/node_modules/sweetalert/dist/sweetalert.min.js')}}"></script>
   <!-- End plugin js for this page-->
   <!-- inject:js -->
   <script src="{{asset('js/off-canvas.js')}}"></script>
@@ -73,6 +75,7 @@
   <script src="{{asset('js/iCheck.js')}}"></script>
   <script src="{{asset('js/editorDemo.js')}}"></script>
   <script src="{{asset('js/jquery.cookie.js')}}"></script>
+  {{-- <script src="{{asset('js/alerts.js')}}"></script> --}}
   <!-- End custom js for this page-->
 </body>
 
