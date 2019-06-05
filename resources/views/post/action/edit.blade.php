@@ -1,26 +1,99 @@
 @extends('master')
 @section('content')
-
-<form action="/api/submitpost" method="POST" role="form">
+<form action="" id="form-edit-post">
     @csrf
     <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
+    <input type="hidden" id="post_slug" value="{{ $post_by_slug->slug }}" />
     <div class="form-group">
         <label for="">Post Title</label>
-        <input type="text" class="form-control" name="post_name" value="{{ $post_by_slug->name }}" required>
+        <input type="text" class="form-control" id="post_name" value="{{ $post_by_slug->name }}" required>
     </div>
     <div class="form-group">
         <label for="">Author</label>
-        <input type="text" class="form-control" name="post_author" value="{{ Auth::user($post_by_slug->author_id)->name }}" placeholder="Author" disabled>
+        <input type="text" class="form-control" id="post_author" value="{{ Auth::user($post_by_slug->author_id)->name }}" placeholder="Author" disabled>
     </div>
     <div class="form-group">
         <label for="">Content</label>
-        <textarea class="form-control" name="post_content"  rows="3" required>{{ $post_by_slug->content }}</textarea>
+        <textarea id='addpost' placeholder=" Your content here..." required>
+                {{ $post_by_slug->content }}
+            </textarea>
     </div>
     <div class="form-group">
         <label for="">Thumbnail</label>
-        <input type="text" class="form-control" name="post_thumbnail" value="{{ $post_by_slug->thumbnail }}" required>
+        <input type="text" class="form-control" id="post_thumbnail" value="{{ $post_by_slug->thumbnail }}" required>
     </div>
-    <button type="submit" class="btn btn-primary">Edit Post</button>
+    <button type="submit" class="btn btn-primary">Save Post</button>
     <a href="{{route('posts')}}" class="btn btn-danger">Cancel</a>
 </form>
+<script>
+        $(document).ready(function(){
+           $.ajaxSetup({
+               headers: {
+                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               }
+           });
+        
+           $('#form-edit-post').submit(function(e){
+               e.preventDefault();
+               swal({
+                 title: 'Are you sure?',
+               //   text: "You won't be able to revert this!",
+                 icon: 'warning',
+                 buttons: {
+                   cancel: {
+                     text: "Cancel",
+                     value: null,
+                     visible: true,
+                     className: "btn btn-danger",
+                     closeModal: true,
+                   },
+                   confirm: {
+                     text: "OK",
+                     value: true,
+                     visible: true,
+                     className: "btn btn-primary",
+                     closeModal: true
+                   }
+                 }
+               }).then((value) => {
+                  if(value) {
+                       var post_slug = $('#post_slug').val()
+                       var post_name = $('#post_name').val()
+                       var post_content = $('#addpost').val()
+                       var post_thumbnail = $('#post_thumbnail').val()
+                       var data = {
+                           post_slug: post_slug,
+                           post_name: post_name,
+                           post_content: post_content,
+                           post_thumbnail: post_thumbnail,
+                           }
+                       $.ajax({
+                       type: "POST",
+                       url: 'http://127.0.0.1:8000/api/post/editPost',
+                       data: JSON.stringify(data),
+                       dataType: 'json',
+                       contentType: 'application/json',
+                       success: function(res){
+                        //    tinyMCE.activeEditor.setContent('');
+                        //    $('#form-add-post').find("input[type=text], textarea").val("");
+                           swal({
+                               title: 'Congratulations!',
+                               text: 'Post updated succesfully!',
+                               icon: 'success',
+                               button: {
+                                   text: "OK",
+                                   value: true,
+                                   visible: true,
+                                   className: "btn btn-primary"
+                               }
+                           })
+                       },
+                       });
+                  }
+               });           
+           })
+        })
+        
+        
+     </script>
 @endsection

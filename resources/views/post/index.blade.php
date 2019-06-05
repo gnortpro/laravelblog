@@ -4,9 +4,9 @@
    <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
          <div class="card-body">
-            <div class=" form-inline">
-                  <h4 class="card-title">List Posts</h4>
-                  <a class="btn btn-success" href="{{route('posts',['action' => 'add'])}}">New Post</a>
+            <div class="mb-3 form-inline">
+                  {{-- <h4 class="card-title">List Posts</h4> --}}
+                  <a title="Add New Post" class="btn btn-success ml-2" href="{{route('posts',['action' => 'add'])}}"><i class="mdi mdi-plus menu-icon"></i>New Post</a>
             </div>
             
             <div class="card-description">
@@ -14,17 +14,17 @@
                   <tbody>
                      <tr>
                         <td>
-                           <div class="form-group form-inline">
+                           <div class=" form-inline">
                               <select class="form-control border-primary" id="exampleSelectPrimary">
                                  <option value="" selected disabled>Make an action</option>
                                  <option>Move to trash</option>
                                  <option>Clone</option>
                               </select>
-                              <button class="btn btn-danger">Apply</button>
+                              <button class="btn btn-danger ml-2">Apply</button>
                            </div>
                         </td>
                         <td>
-                           <div class="form-group">
+                           <div class="">
                               <select class="form-control border-primary" id="exampleSelectPrimary">
                                  <option>Move to trash</option>
                                  <option>Clone</option>
@@ -32,7 +32,7 @@
                            </div>
                         </td>
                         <td>
-                           <div class="form-group">
+                           <div class="">
                               <select class="form-control border-primary" id="exampleSelectPrimary">
                                  <option>Move to trash</option>
                                  <option>Clone</option>
@@ -40,7 +40,7 @@
                            </div>
                         </td>
                         <td>
-                           <div class="form-group">
+                           <div class="">
                               <select class="form-control border-primary" id="exampleSelectPrimary">
                                  <option>Move to trash</option>
                                  <option>Clone</option>
@@ -48,7 +48,7 @@
                            </div>
                         </td>
                         <td>
-                           <div class="form-group">
+                           <div class="">
                               <select class="form-control border-primary" id="exampleSelectPrimary">
                                  <option>Move to trash</option>
                                  <option>Clone</option>

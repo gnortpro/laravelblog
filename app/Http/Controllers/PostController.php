@@ -78,4 +78,28 @@ class PostController extends Controller
 			'Create new post successfully'
 		);
 	}
+
+
+	public function editPost(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'post_slug' => 'required',
+			'post_name' => 'required',
+			'post_content' => 'required',
+			'post_thumbnail' => 'required'
+		]);
+		if ($validator->fails()) {
+			return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
+		}
+		Post::where('slug', $request->get('post_slug'))
+			->update([
+				'name' => $request->get('post_name'),
+				'content' => $request->get('post_content'),
+				'thumbnail' => $request->get('post_thumbnail')
+			]);
+		return $this->successResponse(
+			[],
+			'Edit post successfully'
+		);
+	}
 }
