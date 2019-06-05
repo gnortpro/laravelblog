@@ -15,8 +15,8 @@
     <div class="form-group">
         <label for="">Content</label>
         <textarea id='addpost' placeholder=" Your content here..." required>
-                {{ $post_by_slug->content }}
-            </textarea>
+        {{ $post_by_slug->content }}
+        </textarea>
     </div>
     <div class="form-group">
         <label for="">Thumbnail</label>
@@ -26,74 +26,72 @@
     <a href="{{route('posts')}}" class="btn btn-danger">Cancel</a>
 </form>
 <script>
-        $(document).ready(function(){
-           $.ajaxSetup({
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               }
-           });
-        
-           $('#form-edit-post').submit(function(e){
-               e.preventDefault();
-               swal({
-                 title: 'Are you sure?',
-               //   text: "You won't be able to revert this!",
-                 icon: 'warning',
-                 buttons: {
-                   cancel: {
-                     text: "Cancel",
-                     value: null,
-                     visible: true,
-                     className: "btn btn-danger",
-                     closeModal: true,
-                   },
-                   confirm: {
-                     text: "OK",
-                     value: true,
-                     visible: true,
-                     className: "btn btn-primary",
-                     closeModal: true
-                   }
-                 }
-               }).then((value) => {
-                  if(value) {
-                       var post_slug = $('#post_slug').val()
-                       var post_name = $('#post_name').val()
-                       var post_content = $('#addpost').val()
-                       var post_thumbnail = $('#post_thumbnail').val()
-                       var data = {
-                           post_slug: post_slug,
-                           post_name: post_name,
-                           post_content: post_content,
-                           post_thumbnail: post_thumbnail,
-                           }
-                       $.ajax({
-                       type: "POST",
-                       url: 'http://127.0.0.1:8000/api/post/editPost',
-                       data: JSON.stringify(data),
-                       dataType: 'json',
-                       contentType: 'application/json',
-                       success: function(res){
-                        //    tinyMCE.activeEditor.setContent('');
-                        //    $('#form-add-post').find("input[type=text], textarea").val("");
-                           swal({
-                               title: 'Congratulations!',
-                               text: 'Post updated succesfully!',
-                               icon: 'success',
-                               button: {
-                                   text: "OK",
-                                   value: true,
-                                   visible: true,
-                                   className: "btn btn-primary"
-                               }
-                           })
-                       },
-                       });
-                  }
-               });           
-           })
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('#form-edit-post').submit(function(e) {
+            e.preventDefault();
+            swal({
+                title: 'Are you sure?',
+                //   text: "You won't be able to revert this!",
+                icon: 'warning',
+                buttons: {
+                    cancel: {
+                        text: "Cancel",
+                        value: null,
+                        visible: true,
+                        className: "btn btn-danger",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "OK",
+                        value: true,
+                        visible: true,
+                        className: "btn btn-primary",
+                        closeModal: true
+                    }
+                }
+            }).then((value) => {
+                if (value) {
+                    var post_slug = $('#post_slug').val()
+                    var post_name = $('#post_name').val()
+                    var post_content = $('#addpost').val()
+                    var post_thumbnail = $('#post_thumbnail').val()
+                    var data = {
+                        post_slug: post_slug,
+                        post_name: post_name,
+                        post_content: post_content,
+                        post_thumbnail: post_thumbnail,
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo env('API_URL'); ?>/api/post/editPost',
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function(res) {
+                            //    tinyMCE.activeEditor.setContent('');
+                            //    $('#form-add-post').find("input[type=text], textarea").val("");
+                            swal({
+                                title: 'Congratulations!',
+                                text: 'Post updated succesfully!',
+                                icon: 'success',
+                                button: {
+                                    text: "OK",
+                                    value: true,
+                                    visible: true,
+                                    className: "btn btn-primary"
+                                }
+                            })
+                        },
+                    });
+                }
+            });
         })
-        
-        
-     </script>
+    })
+</script>
 @endsection
