@@ -5,10 +5,10 @@
       <div class="card">
          <div class="card-body">
             <div class="mb-3 form-inline">
-                  {{-- <h4 class="card-title">List Posts</h4> --}}
-                  <a title="Add New Post" class="btn btn-success ml-2" href="{{route('posts',['action' => 'add'])}}"><i class="mdi mdi-plus menu-icon"></i>New Post</a>
+               {{-- <h4 class="card-title">List Posts</h4> --}}
+               <a title="Add New Post" class="btn btn-success ml-2" href="{{route('posts',['action' => 'add'])}}"><i class="mdi mdi-plus menu-icon"></i>New Post</a>
             </div>
-            
+
             <div class="card-description">
                <table class="table table-striped">
                   <tbody>
