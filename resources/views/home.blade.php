@@ -6,7 +6,9 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Dashboard</div>
-
+                @php
+                    var_dump(Auth::user())
+                @endphp
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">

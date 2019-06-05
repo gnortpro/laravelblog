@@ -36,7 +36,7 @@
      $(document).ready(function(){
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
@@ -49,7 +49,8 @@
                 var data = {
                     post_name: post_name,
                     post_content: post_content,
-                    post_thumbnail: post_thumbnail
+                    post_thumbnail: post_thumbnail,
+                    '_token': $('meta[name="csrf-token"]').attr('content')
                 }
                 $.ajax({
                     type: "POST",
