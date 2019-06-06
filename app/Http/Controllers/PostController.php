@@ -32,16 +32,16 @@ class PostController extends Controller
 				case 'categories':
 					return view('post.categories');
 					break;
-				
+
 				case 'tags':
 					return view('post.tags');
 					break;
-				
+
 				case 'trash':
 					$trash = Post::where('status', 1)->get();
 					return view('post.trash',  ['posts' => $trash]);
 					break;
-				
+
 				default:
 					abort(404);
 			}
@@ -136,7 +136,7 @@ class PostController extends Controller
 		);
 	}
 
-	
+
 	public function actionPost(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
@@ -147,8 +147,8 @@ class PostController extends Controller
 		if ($validator->fails()) {
 			return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
 		}
-		if ($request->option == 'movetotrash'){
-			foreach ($request->post_slug as $value ) {
+		if ($request->option == 'movetotrash') {
+			foreach ($request->post_slug as $value) {
 				Post::where('slug', $value)->update(['status' => 1]);
 			}
 			return $this->successResponse(
@@ -156,15 +156,15 @@ class PostController extends Controller
 				'Move to trash successfully'
 			);
 		}
-		if  ($request->option == 'clone'){
-			foreach ($request->post_slug as $value ) {
+		if ($request->option == 'clone') {
+			foreach ($request->post_slug as $value) {
 				$post = Post::where('slug', $value)->first();
 				$clone = new Post([
 					'name' => $post->name,
 					'author_id' => $request->author_id,
 					'content' => $post->content,
 					'thumbnail' => $post->thumbnail,
-					'slug' => $post->slug.'-clone-'.time()
+					'slug' => $post->slug . '-clone-' . time()
 				]);
 				$clone->save();
 			}
@@ -174,8 +174,8 @@ class PostController extends Controller
 			);
 		}
 		// Delete permanently
-		if ($request->option == 'delete'){
-			foreach ($request->post_slug as $value ) {
+		if ($request->option == 'delete') {
+			foreach ($request->post_slug as $value) {
 				Post::where('slug', $value)->update(['status' => 99]);
 			}
 			return $this->successResponse(
@@ -184,8 +184,8 @@ class PostController extends Controller
 			);
 		}
 
-		if ($request->option == 'restore'){
-			foreach ($request->post_slug as $value ) {
+		if ($request->option == 'restore') {
+			foreach ($request->post_slug as $value) {
 				Post::where('slug', $value)->update(['status' => 0]);
 			}
 			return $this->successResponse(
@@ -193,9 +193,5 @@ class PostController extends Controller
 				'Restore to trash successfully'
 			);
 		}
-		
-		
 	}
-
-
 }

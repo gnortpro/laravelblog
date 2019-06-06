@@ -3,7 +3,7 @@
 
 
 <div class="row">
-   <div class="col-lg-12 grid-margin stretch-card">     
+   <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
          <div class="card-body">
             <a title="Add New Post" class="btn btn-danger mb-3" href="{{route('posts')}}"><i class="mdi mdi-keyboard-backspace menu-icon"></i>Back</a>
@@ -13,7 +13,7 @@
                   <label for="">Post Title</label>
                   <input type="text" class="form-control" id="post_name" placeholder="Post Title" required>
                </div>
-               
+
                <div class="form-group">
                   <label for="">Post Slug</label>
                   <input type="text" class="form-control" id="post_slug" placeholder="Post Slug" required>
@@ -44,18 +44,18 @@
 </div>
 <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg" role="document">
-        
+
       <div class="modal-content">
-            <div class="modal-header">
-                  <h3 class="modal-title"></h3>
-                </div>
+         <div class="modal-header">
+            <h3 class="modal-title"></h3>
+         </div>
          <div class="modal-body">
 
          </div>
          <div class="modal-footer">
-               <button type="button" class="btn btn-danger " data-dismiss="modal" aria-label="Close">
-                     Close
-                   </button>
+            <button type="button" class="btn btn-danger " data-dismiss="modal" aria-label="Close">
+               Close
+            </button>
          </div>
       </div>
    </div>
@@ -124,73 +124,74 @@
                               className: "btn btn-primary"
                            }
                         })
-                     } 
-                     if (res.err == 0)  {
-                        tinyMCE.activeEditor.setContent('');
-                     $('#form-add-post').find("input[type=text], textarea").val("");
-                     swal({
-                        title: 'Congratulations!',
-                        text: 'Post added succesfully!',
-                        icon: 'success',
-                        button: {
-                           text: "OK",
-                           value: true,
-                           visible: true,
-                           className: "btn btn-primary"
-                        }
-                     })
                      }
-                     
+                     if (res.err == 0) {
+                        tinyMCE.activeEditor.setContent('');
+                        $('#form-add-post').find("input[type=text], textarea").val("");
+                        swal({
+                           title: 'Congratulations!',
+                           text: 'Post added succesfully!',
+                           icon: 'success',
+                           button: {
+                              text: "OK",
+                              value: true,
+                              visible: true,
+                              className: "btn btn-primary"
+                           }
+                        })
+                     }
+
                   },
                });
             }
          });
       })
-      $("#post_name").on('keyup', function(event){
-                 
-                 eventKeyCode =  $("#post_name").val() 
-                 
-                 $("#post_slug").val(convertToSlug(eventKeyCode));
-            
-         });
-         function convertToSlug(str){
-                 str = str.replace(/^\s+|\s+$/g, ''); // trim
-                 str = str.toLowerCase();
+      $("#post_name").on('keyup', function(event) {
 
-                 // remove accents, swap ñ for n, etc
-                 var from = "ãăắằặẳàáạảäâẽèẹẻéëêểệềễếìíïîõớợờởỡơòọỏớóöôùủụúüûñçđừứựửưốồộổ·/_,:;";
-                 var to   = "aaaaaaaaaaaaeeeeeeeeeeeeiiiioooooooooooooouuuuuuncduuuuuoooo------";
-                 for (var i=0, l=from.length ; i<l ; i++) {
-                 str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-                 }
+         eventKeyCode = $("#post_name").val()
 
-                 str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-                 .replace(/\s+/g, '-') // collapse whitespace and replace by -
-                 .replace(/-+/g, '-'); // collapse dashes
+         $("#post_slug").val(convertToSlug(eventKeyCode));
 
-                 return str;
-              }
-      $('#preview_post').click(function(){
+      });
+
+      function convertToSlug(str) {
+         str = str.replace(/^\s+|\s+$/g, ''); // trim
+         str = str.toLowerCase();
+
+         // remove accents, swap ñ for n, etc
+         var from = "ãăắằặẳàáạảäâẽèẹẻéëêểệềễếìíïîõớợờởỡơòọỏớóöôùủụúüûñçđừứựửưốồộổ·/_,:;";
+         var to = "aaaaaaaaaaaaeeeeeeeeeeeeiiiioooooooooooooouuuuuuncduuuuuoooo------";
+         for (var i = 0, l = from.length; i < l; i++) {
+            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+         }
+
+         str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') // collapse whitespace and replace by -
+            .replace(/-+/g, '-'); // collapse dashes
+
+         return str;
+      }
+      $('#preview_post').click(function() {
          var content = tinyMCE.activeEditor.getContent();
          var title = $('#post_name').val();
-         if (content != '' && title != ''){
+         if (content != '' && title != '') {
             $('#previewModal').modal('show');
             $('.modal-title').html(title)
             $('.modal-body').html(content)
          } else {
             swal({
-                  title: 'Fail!',
-                  text: 'Please input content',
-                  icon: 'error',
-                  button: {
-                     text: "OK",
-                     value: true,
-                     visible: true,
-                     className: "btn btn-primary"
-                  }
-               })
+               title: 'Fail!',
+               text: 'Please input content',
+               icon: 'error',
+               button: {
+                  text: "OK",
+                  value: true,
+                  visible: true,
+                  className: "btn btn-primary"
+               }
+            })
          }
-       
+
       })
 
    })

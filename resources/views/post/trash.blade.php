@@ -23,7 +23,7 @@
                                  <option value="restore">Restore</option>
                                  <option value="delete">Delete permanently</option>
                               </select>
-                           <input type="hidden" id="author_id" value="{{Auth::user()->id}}">
+                              <input type="hidden" id="author_id" value="{{Auth::user()->id}}">
                               <button class="btn btn-danger ml-2">Apply</button>
                            </form>
                         </td>
@@ -110,18 +110,18 @@
 </div>
 <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg" role="document">
-        
+
       <div class="modal-content">
-            <div class="modal-header">
-                  <h3 class="modal-title"></h3>
-                </div>
+         <div class="modal-header">
+            <h3 class="modal-title"></h3>
+         </div>
          <div class="modal-body">
 
          </div>
          <div class="modal-footer">
-               <button type="button" class="btn btn-danger " data-dismiss="modal" aria-label="Close">
-                     Close
-                   </button>
+            <button type="button" class="btn btn-danger " data-dismiss="modal" aria-label="Close">
+               Close
+            </button>
          </div>
       </div>
    </div>
