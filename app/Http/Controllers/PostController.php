@@ -60,17 +60,22 @@ class PostController extends Controller
 			'post_name' => 'required',
 			'post_content' => 'required',
 			'post_thumbnail' => 'required',
-			'post_author' => 'required'
+			'post_author' => 'required',
+			'post_slug' => 'required'
 		]);
 		if ($validator->fails()) {
 			return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
+		}
+		$check_slug_duplicate = Post::where('slug', $request->get('post_slug'))->first();
+		if ($check_slug_duplicate != null) {
+			return $this->errorResponse(self::ERROR_SLUG_DUPICATED, [], self::getErrorMessage(self::ERROR_SLUG_DUPICATED));
 		}
 		$post = new Post([
 			'name' => $request->get('post_name'),
 			'author_id' => $request->get('post_author'),
 			'content' => $request->get('post_content'),
 			'thumbnail' => $request->get('post_thumbnail'),
-			'slug' => str_slug($request->get('post_name'))
+			'slug' => $request->get('post_slug')
 		]);
 		$post->save();
 		return $this->successResponse(
@@ -86,7 +91,8 @@ class PostController extends Controller
 			'post_slug' => 'required',
 			'post_name' => 'required',
 			'post_content' => 'required',
-			'post_thumbnail' => 'required'
+			'post_thumbnail' => 'required',
+			'post_slug_new' => 'required'
 		]);
 		if ($validator->fails()) {
 			return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
@@ -95,7 +101,8 @@ class PostController extends Controller
 			->update([
 				'name' => $request->get('post_name'),
 				'content' => $request->get('post_content'),
-				'thumbnail' => $request->get('post_thumbnail')
+				'thumbnail' => $request->get('post_thumbnail'),
+				'slug' => $request->get('post_slug_new')
 			]);
 		return $this->successResponse(
 			[],

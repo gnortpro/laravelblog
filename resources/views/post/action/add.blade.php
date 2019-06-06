@@ -1,21 +1,9 @@
 @extends('master')
 @section('content')
-<input type="text" id="Restaurant_Name">
-        <script>
-            $(document).ready(function(){
-                $("#Restaurant_Name").on('keyup', function(event){
-                    
-                        eventKeyCode =  $("#Restaurant_Name").val() // what I already tried is in StackOverflow answer    
-                        
-                        console.log(eventKeyCode);
-                   
-                });
-               
-            })
-        </script>
+
+
 <div class="row">
-   <div class="col-lg-12 grid-margin stretch-card">
-        
+   <div class="col-lg-12 grid-margin stretch-card">     
       <div class="card">
          <div class="card-body">
             <a title="Add New Post" class="btn btn-danger mb-3" href="{{route('posts')}}"><i class="mdi mdi-keyboard-backspace menu-icon"></i>Back</a>
@@ -25,6 +13,12 @@
                   <label for="">Post Title</label>
                   <input type="text" class="form-control" id="post_name" placeholder="Post Title" required>
                </div>
+               
+               <div class="form-group">
+                  <label for="">Post Slug</label>
+                  <input type="text" class="form-control" id="post_slug" placeholder="Post Slug" required>
+               </div>
+
                <div class="form-group">
                   <label for="">Author</label>
                   <input type="hidden" id="post_author_id" value="{{Auth::user()->id}}">
@@ -84,11 +78,13 @@
                var post_content = $('#addpost').val()
                var post_thumbnail = $('#post_thumbnail').val()
                var post_author_id = $('#post_author_id').val()
+               var post_slug = $('#post_slug').val()
                var data = {
                   post_name: post_name,
                   post_content: post_content,
                   post_thumbnail: post_thumbnail,
                   post_author: post_author_id,
+                  post_slug: post_slug,
                   '_token': $('meta[name="csrf-token"]').attr('content')
                }
                $.ajax({
@@ -98,7 +94,21 @@
                   dataType: 'json',
                   contentType: 'application/json',
                   success: function(res) {
-                     tinyMCE.activeEditor.setContent('');
+                     if (res.err == 3) {
+                        swal({
+                           title: 'Fail!',
+                           text: res.msg,
+                           icon: 'error',
+                           button: {
+                              text: "OK",
+                              value: true,
+                              visible: true,
+                              className: "btn btn-primary"
+                           }
+                        })
+                     } 
+                     if (res.err == 0)  {
+                        tinyMCE.activeEditor.setContent('');
                      $('#form-add-post').find("input[type=text], textarea").val("");
                      swal({
                         title: 'Congratulations!',
@@ -111,11 +121,38 @@
                            className: "btn btn-primary"
                         }
                      })
+                     }
+                     
                   },
                });
             }
          });
       })
+      $("#post_name").on('keyup', function(event){
+                 
+                 eventKeyCode =  $("#post_name").val() 
+                 
+                 $("#post_slug").val(convertToSlug(eventKeyCode));
+            
+         });
+         function convertToSlug(str){
+                 str = str.replace(/^\s+|\s+$/g, ''); // trim
+                 str = str.toLowerCase();
+
+                 // remove accents, swap ñ for n, etc
+                 var from = "ãăắằặẳàáạảäâẽèẹẻéëêểệềễếìíïîõớợờởỡơòọỏớóöôùủụúüûñçđừứựửưốồộổ·/_,:;";
+                 var to   = "aaaaaaaaaaaaeeeeeeeeeeeeiiiioooooooooooooouuuuuuncduuuuuoooo------";
+                 for (var i=0, l=from.length ; i<l ; i++) {
+                 str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                 }
+
+                 str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+                 .replace(/\s+/g, '-') // collapse whitespace and replace by -
+                 .replace(/-+/g, '-'); // collapse dashes
+
+                 return str;
+              }
+
    })
 </script>
 @endsection

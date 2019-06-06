@@ -22,6 +22,12 @@
         <label for="">Thumbnail</label>
         <input type="text" class="form-control" id="post_thumbnail" value="{{ $post_by_slug->thumbnail }}" required>
     </div>
+    
+    <div class="form-group">
+        <label for="">Slug</label>
+        <input type="text" class="form-control" id="post_slug_new" value="{{ $post_by_slug->slug }}" required>
+    </div>
+
     <button type="submit" class="btn btn-primary">Save Post</button>
     <a href="{{route('posts')}}" class="btn btn-danger">Cancel</a>
 </form>
@@ -61,11 +67,13 @@
                     var post_name = $('#post_name').val()
                     var post_content = $('#addpost').val()
                     var post_thumbnail = $('#post_thumbnail').val()
+                    var post_slug_new = $('#post_slug_new').val()
                     var data = {
                         post_slug: post_slug,
                         post_name: post_name,
                         post_content: post_content,
                         post_thumbnail: post_thumbnail,
+                        post_slug_new: post_slug_new,
                     }
                     $.ajax({
                         type: "POST",
@@ -74,8 +82,6 @@
                         dataType: 'json',
                         contentType: 'application/json',
                         success: function(res) {
-                            //    tinyMCE.activeEditor.setContent('');
-                            //    $('#form-add-post').find("input[type=text], textarea").val("");
                             swal({
                                 title: 'Congratulations!',
                                 text: 'Post updated succesfully!',
@@ -86,7 +92,12 @@
                                     visible: true,
                                     className: "btn btn-primary"
                                 }
+                            }).then((value) => {
+                                if (value) {
+                                    window.location.href = '<?php echo env('APP_URL'); ?>/posts/'+post_slug_new+'?action=edit';
+                                }
                             })
+                            
                         },
                     });
                 }

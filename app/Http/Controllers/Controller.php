@@ -19,6 +19,7 @@ class Controller extends BaseController
     const ERROR_BAD_REQUEST = 400;
     const ERROR_RESTRICT = 403;
     const ERROR_INTERNAL = 500;
+    const ERROR_SLUG_DUPICATED = 3;
 
     static $errorMessage = [
         self::ERROR_USER_EXISTED => "Định danh User đã tồn tại",
@@ -30,6 +31,7 @@ class Controller extends BaseController
         self::ERROR_BAD_REQUEST => "Truy vẫn không hợp lệ",
         self::ERROR_INTERNAL => "Lỗi hệ thống",
         self::ERROR_POLICY => "Không hủy trong 24h còn lại",
+        self::ERROR_SLUG_DUPICATED => "Slug is duplicated",
     ];
 
     public static function getErrorMessage($errorCode)
