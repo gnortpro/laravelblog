@@ -27,7 +27,7 @@
                </div>
                <div class="form-group">
                   <label for="">Author</label>
-                  <input type="hidden" id="post_author_id" value="{{Auth::user()->id}}" >
+                  <input type="hidden" id="post_author_id" value="{{Auth::user()->id}}">
                   <input type="text" class="form-control" id="post_author" value="{{Auth::user()->name}}" placeholder="Author" disabled required>
                </div>
                <div class="form-group">
@@ -49,75 +49,73 @@
    </div>
 </div>
 <script>
-   $(document).ready(function(){
+   $(document).ready(function() {
       $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         }
       });
-   
-      $('#form-add-post').submit(function(e){
-          e.preventDefault();
-          swal({
+
+      $('#form-add-post').submit(function(e) {
+         e.preventDefault();
+         swal({
             title: 'Are you sure?',
-          //   text: "You won't be able to revert this!",
+            //   text: "You won't be able to revert this!",
             icon: 'warning',
             buttons: {
-              cancel: {
-                text: "Cancel",
-                value: null,
-                visible: true,
-                className: "btn btn-danger",
-                closeModal: true,
-              },
-              confirm: {
-                text: "OK",
-                value: true,
-                visible: true,
-                className: "btn btn-primary",
-                closeModal: true
-              }
+               cancel: {
+                  text: "Cancel",
+                  value: null,
+                  visible: true,
+                  className: "btn btn-danger",
+                  closeModal: true,
+               },
+               confirm: {
+                  text: "OK",
+                  value: true,
+                  visible: true,
+                  className: "btn btn-primary",
+                  closeModal: true
+               }
             }
-          }).then((value) => {
-             if(value) {
-                  var post_name = $('#post_name').val()
-                  var post_content = $('#addpost').val()
-                  var post_thumbnail = $('#post_thumbnail').val()
-                  var post_author_id = $('#post_author_id').val()
-                  var data = {
-                      post_name: post_name,
-                      post_content: post_content,
-                      post_thumbnail: post_thumbnail,
-                      post_author: post_author_id,
-                      '_token': $('meta[name="csrf-token"]').attr('content')
-                      }
-                  $.ajax({
+         }).then((value) => {
+            if (value) {
+               var post_name = $('#post_name').val()
+               var post_content = $('#addpost').val()
+               var post_thumbnail = $('#post_thumbnail').val()
+               var post_author_id = $('#post_author_id').val()
+               var data = {
+                  post_name: post_name,
+                  post_content: post_content,
+                  post_thumbnail: post_thumbnail,
+                  post_author: post_author_id,
+                  '_token': $('meta[name="csrf-token"]').attr('content')
+               }
+               $.ajax({
                   type: "POST",
-                  url: 'http://127.0.0.1:8000/api/post/submitPost',
+                  url: '<?php echo env('API_URL'); ?>/api/post/submitPost',
                   data: JSON.stringify(data),
                   dataType: 'json',
                   contentType: 'application/json',
-                  success: function(res){
-                      tinyMCE.activeEditor.setContent('');
-                      $('#form-add-post').find("input[type=text], textarea").val("");
-                      swal({
-                          title: 'Congratulations!',
-                          text: 'Post added succesfully!',
-                          icon: 'success',
-                          button: {
-                              text: "OK",
-                              value: true,
-                              visible: true,
-                              className: "btn btn-primary"
-                          }
-                      })
+                  success: function(res) {
+                     tinyMCE.activeEditor.setContent('');
+                     $('#form-add-post').find("input[type=text], textarea").val("");
+                     swal({
+                        title: 'Congratulations!',
+                        text: 'Post added succesfully!',
+                        icon: 'success',
+                        button: {
+                           text: "OK",
+                           value: true,
+                           visible: true,
+                           className: "btn btn-primary"
+                        }
+                     })
                   },
-                  });
-             }
-          });           
+               });
+            }
+         });
       })
    })
-   
-   
 </script>
 @endsection

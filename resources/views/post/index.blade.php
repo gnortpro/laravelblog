@@ -5,10 +5,10 @@
       <div class="card">
          <div class="card-body">
             <div class="mb-3 form-inline">
-                  {{-- <h4 class="card-title">List Posts</h4> --}}
-                  <a title="Add New Post" class="btn btn-success ml-2" href="{{route('posts',['action' => 'add'])}}"><i class="mdi mdi-plus menu-icon"></i>New Post</a>
+               {{-- <h4 class="card-title">List Posts</h4> --}}
+               <a title="Add New Post" class="btn btn-success ml-2" href="{{route('posts',['action' => 'add'])}}"><i class="mdi mdi-plus menu-icon"></i>New Post</a>
             </div>
-            
+
             <div class="card-description">
                <table class="table table-striped">
                   <tbody>
@@ -94,7 +94,7 @@
                         <label class="badge badge-info badge-pill">On hold</label>
                      </td>
                      <td>
-                        <button class="btn btn-outline-primary">View</button>
+                        <button onclick="previewPost('{{ $post->slug }}')" class="btn btn-outline-primary">Preview</button>
                      </td>
                   </tr>
                   @endforeach
@@ -104,4 +104,45 @@
       </div>
    </div>
 </div>
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-body">
+
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+   $(document).ready(function() {
+      $.ajaxSetup({
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         }
+      });
+   })
+
+   function previewPost(slug) {
+      var data = {
+         post_slug: slug,
+      }
+      $.ajax({
+         type: "POST",
+         url: '<?php echo env('API_URL'); ?>/api/post/previewPost',
+         data: JSON.stringify(data),
+         dataType: 'json',
+         contentType: 'application/json',
+         success: function(res) {
+            if (res.err == 0) {
+               $('#previewModal').modal('show');
+               $('.modal-body').html(res.data.content)
+            }
+
+         },
+      });
+   }
+</script>
 @endsection

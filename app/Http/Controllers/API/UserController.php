@@ -28,8 +28,12 @@ class UserController extends Controller
             return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
         }
     }
+
+
+
+
     /** 
-     * Register api 
+     * Register api  
      * 
      * @return \Illuminate\Http\Response 
      */

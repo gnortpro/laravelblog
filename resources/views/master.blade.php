@@ -24,6 +24,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{asset('/css/style.css')}}">
   <script src="{{asset('/node_modules/jquery/dist/jquery.min.js')}}"></script>
+
   <!-- endinject -->
   <link rel="shortcut icon" href="{{asset('images/favicon.png')}}" />
 </head>
@@ -75,7 +76,7 @@
   <script src="{{asset('js/iCheck.js')}}"></script>
   <script src="{{asset('js/editorDemo.js')}}"></script>
   <script src="{{asset('js/jquery.cookie.js')}}"></script>
-  {{-- <script src="{{asset('js/alerts.js')}}"></script> --}}
+
   <!-- End custom js for this page-->
 </body>
 

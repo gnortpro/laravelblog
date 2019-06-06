@@ -125,9 +125,9 @@
                <i class="mdi mdi-cached mr-2 text-success"></i>
                Activity Log
              </a>
-             <a class="dropdown-item" href="#">
+             <a class="dropdown-item logoutButton" href="">
                <i class="mdi mdi-logout mr-2 text-primary"></i>
-               Signout
+               Log Out
              </a>
            </div>
          </li>
@@ -263,3 +263,22 @@
          </li>
        </ul>
      </nav>
+     <!-- <script>
+       (function($) {
+         'use strict';
+         $('span.logoutButton').click(function() {
+           $.ajax({
+             type: "POST",
+             url: '<?php echo env('API_URL'); ?>/api/logout',
+             //  data: JSON.stringify(data),
+             dataType: 'json',
+             contentType: 'application/json',
+             success: function(res) {
+               if (res.err == 0) {
+
+               }
+             },
+           });
+         })
+       })(jQuery);
+     </script> -->

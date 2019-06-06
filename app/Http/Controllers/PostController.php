@@ -102,4 +102,19 @@ class PostController extends Controller
 			'Edit post successfully'
 		);
 	}
+
+	public function previewPost(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'post_slug' => 'required',
+		]);
+		if ($validator->fails()) {
+			return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
+		}
+		$post = Post::where('slug', $request->post_slug)->first();
+		return $this->successResponse(
+			$post,
+			'Preview post successfully'
+		);
+	}
 }

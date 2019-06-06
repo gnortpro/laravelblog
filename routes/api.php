@@ -21,6 +21,7 @@ Route::post('register', 'API\UserController@register');
 Route::group(['prefix' => 'post'], function () {
     Route::post('submitPost', 'PostController@submitPost');
     Route::post('editPost', 'PostController@editPost');
+    Route::post('previewPost', 'PostController@previewPost');
 });
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('details', 'API\UserController@details');
