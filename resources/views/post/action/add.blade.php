@@ -1,7 +1,21 @@
 @extends('master')
 @section('content')
+<input type="text" id="Restaurant_Name">
+        <script>
+            $(document).ready(function(){
+                $("#Restaurant_Name").on('keyup', function(event){
+                    
+                        eventKeyCode =  $("#Restaurant_Name").val() // what I already tried is in StackOverflow answer    
+                        
+                        console.log(eventKeyCode);
+                   
+                });
+               
+            })
+        </script>
 <div class="row">
    <div class="col-lg-12 grid-margin stretch-card">
+        
       <div class="card">
          <div class="card-body">
             <a title="Add New Post" class="btn btn-danger mb-3" href="{{route('posts')}}"><i class="mdi mdi-keyboard-backspace menu-icon"></i>Back</a>
