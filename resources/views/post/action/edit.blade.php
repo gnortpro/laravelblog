@@ -1,5 +1,9 @@
 @extends('master')
 @section('content')
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+       <div class="card">
+          <div class="card-body">
 <form action="" id="form-edit-post">
     @csrf
     <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
@@ -27,10 +31,29 @@
         <label for="">Slug</label>
         <input type="text" class="form-control" id="post_slug_new" value="{{ $post_by_slug->slug }}" required>
     </div>
-
+    <button type="button" id="preview_post" title="Preview Post" class="btn btn-info"><i class="mdi mdi-file-find menu-icon"></i>Preview</button>
     <button type="submit" class="btn btn-primary">Save Post</button>
     <a href="{{route('posts')}}" class="btn btn-danger">Cancel</a>
 </form>
+          </div></div></div></div>
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+         
+       <div class="modal-content">
+             <div class="modal-header">
+                   <h3 class="modal-title"></h3>
+                 </div>
+          <div class="modal-body">
+ 
+          </div>
+          <div class="modal-footer">
+                <button type="button" class="btn btn-danger " data-dismiss="modal" aria-label="Close">
+                      Close
+                    </button>
+          </div>
+       </div>
+    </div>
+ </div>
 <script>
     $(document).ready(function() {
         $.ajaxSetup({
@@ -103,6 +126,28 @@
                 }
             });
         })
+        $('#preview_post').click(function(){
+         var content = tinyMCE.activeEditor.getContent();
+         var title = $('#post_name').val();
+         if (content != '' && title != ''){
+            $('#previewModal').modal('show');
+            $('.modal-title').html(title)
+            $('.modal-body').html(content)
+         } else {
+            swal({
+                  title: 'Fail!',
+                  text: 'Please input content',
+                  icon: 'error',
+                  button: {
+                     text: "OK",
+                     value: true,
+                     visible: true,
+                     className: "btn btn-primary"
+                  }
+               })
+         }
+       
+      })
     })
 </script>
 @endsection

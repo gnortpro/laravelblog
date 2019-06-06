@@ -34,10 +34,28 @@
                   <label for="">Thumbnail</label>
                   <input type="text" class="form-control" id="post_thumbnail" placeholder="Thumbnail" required>
                </div>
-               <a title="Preview Post" class="btn btn-info" href="{{route('posts')}}"><i class="mdi mdi-file-find menu-icon"></i>Preview</a>
+               <button type="button" id="preview_post" title="Preview Post" class="btn btn-info"><i class="mdi mdi-file-find menu-icon"></i>Preview</button>
                <button type="submit" class="btn btn-primary ml-2"><i class="mdi mdi-send menu-icon"></i>Submit Post</button>
                <a title="Cancel" class="btn btn-danger ml-2" href="{{route('posts')}}"><i class="mdi mdi-close-circle menu-icon"></i>Cancel</a>
             </form>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+        
+      <div class="modal-content">
+            <div class="modal-header">
+                  <h3 class="modal-title"></h3>
+                </div>
+         <div class="modal-body">
+
+         </div>
+         <div class="modal-footer">
+               <button type="button" class="btn btn-danger " data-dismiss="modal" aria-label="Close">
+                     Close
+                   </button>
          </div>
       </div>
    </div>
@@ -152,6 +170,28 @@
 
                  return str;
               }
+      $('#preview_post').click(function(){
+         var content = tinyMCE.activeEditor.getContent();
+         var title = $('#post_name').val();
+         if (content != '' && title != ''){
+            $('#previewModal').modal('show');
+            $('.modal-title').html(title)
+            $('.modal-body').html(content)
+         } else {
+            swal({
+                  title: 'Fail!',
+                  text: 'Please input content',
+                  icon: 'error',
+                  button: {
+                     text: "OK",
+                     value: true,
+                     visible: true,
+                     className: "btn btn-primary"
+                  }
+               })
+         }
+       
+      })
 
    })
 </script>
