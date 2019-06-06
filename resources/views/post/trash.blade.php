@@ -20,6 +20,8 @@
                                  <option value="" selected disabled>Make an action</option>
                                  <option value="movetotrash">Move to trash</option>
                                  <option value="clone">Clone</option>
+                                 <option value="restore">Restore</option>
+                                 <option value="delete">Delete permanently</option>
                               </select>
                            <input type="hidden" id="author_id" value="{{Auth::user()->id}}">
                               <button class="btn btn-danger ml-2">Apply</button>

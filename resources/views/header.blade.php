@@ -191,8 +191,8 @@
              <ul class="nav flex-column sub-menu">
                <li class="nav-item"> <a class="nav-link" href="{{route('posts')}}">All Posts</a></li>
                <li class="nav-item"> <a class="nav-link" href="{{route('posts',['action' => 'add'])}}">New Post</a></li>
-               <li class="nav-item"> <a class="nav-link" href="{{route('posts-categories')}}">Categories</a></li>
-               <li class="nav-item"> <a class="nav-link" href="{{route('posts-tags')}}">Tags</a></li>
+               <li class="nav-item"> <a class="nav-link" href="{{route('posts',['action' => 'categories'])}}">Categories</a></li>
+               <li class="nav-item"> <a class="nav-link" href="{{route('posts',['action' => 'tags'])}}">Tags</a></li>
              </ul>
            </div>
          </li>

@@ -40,33 +40,35 @@
             radioClass: 'iradio_futurico',
             increaseArea: '20%'
         });
+        var input_value_arr = [];
         $('.action-check input[type="checkbox"]').on('ifChecked', function (event) {
             // alert(event.type + ' callback');
             $('.action-single-check input[type="checkbox"]').iCheck('check')
-            var input_value_arr = [];
             $(".action-single-check .checked :input").each(function () {
                 var input = $(this); // This is the jquery object of the input, do what you will
                 input_value_arr.push(input.val())
             });
             console.log(input_value_arr)
-            // console.log($('.action-single-check .checked input[type="checkbox"]').val())
         })
 
         $('.action-check input[type="checkbox"]').on('ifUnchecked', function (event) {
             // alert(event.type + ' callback');
             $('.action-single-check input[type="checkbox"]').iCheck('uncheck')
+            input_value_arr = []
         })
 
         // get single checked value
         var input_single_value_arr = [];
         $('.action-single-check input[type="checkbox"]').on('ifChecked', function (event) {
             input_single_value_arr.push(event.currentTarget.value)
+
         })
         $('.action-single-check input[type="checkbox"]').on('ifUnchecked', function (event) {
             var arr_position = input_single_value_arr.indexOf(event.currentTarget.value)
             if (arr_position > -1) {
                 input_single_value_arr.splice(arr_position, 1);
             }
+            $('.action-check input[type="checkbox"]').iCheck('uncheck')
         })
         $.ajaxSetup({
             headers: {
@@ -75,42 +77,69 @@
         });
         $('#makePostaction').submit(function (e) {
             e.preventDefault();
-            var option = $('#postAction').find(":selected").val();
-            var author_id = $('#author_id').val();
-            var data = {
-                option: option,
-                author_id: author_id,
-                post_slug: input_single_value_arr
-            }
             if (input_single_value_arr.length > 0) {
-                $.ajax({
-                    type: "POST",
-                    url: $('#api_url').val() + '/api/post/action',
-                    data: JSON.stringify(data),
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (res) {
-                        if (res.err == 0) {
-                            swal({
-                                title: 'Congratulations!',
-                                text: option + ' succesfully!',
-                                icon: 'success',
-                                button: {
-                                    text: "OK",
-                                    value: true,
-                                    visible: true,
-                                    className: "btn btn-primary"
-                                }
-                            }).then((value) => {
-                                if (value) {
-                                    location.reload();
-                                }
-                            })
+                swal({
+                    title: 'Are you sure?',
+                    //   text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    buttons: {
+                        cancel: {
+                            text: "Cancel",
+                            value: null,
+                            visible: true,
+                            className: "btn btn-danger",
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: "OK",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary",
+                            closeModal: true
+                        }
+                    }
+                }).then((value) => {
+                    if (value) {
+                        var option = $('#postAction').find(":selected").val();
+                        var author_id = $('#author_id').val();
+                        var data = {
+                            option: option,
+                            author_id: author_id,
+                            post_slug: input_single_value_arr
                         }
 
-                    },
-                });
+                        $.ajax({
+                            type: "POST",
+                            url: $('#api_url').val() + '/api/post/action',
+                            data: JSON.stringify(data),
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: function (res) {
+                                if (res.err == 0) {
+                                    swal({
+                                        title: 'Congratulations!',
+                                        text: option + ' succesfully!',
+                                        icon: 'success',
+                                        button: {
+                                            text: "OK",
+                                            value: true,
+                                            visible: true,
+                                            className: "btn btn-primary"
+                                        }
+                                    }).then((valuee) => {
+                                        if (valuee) {
+                                            location.reload();
+                                        }
+                                    })
+                                }
+
+                            },
+                        });
+
+                    }
+                })
             }
+
 
         })
 

@@ -28,31 +28,42 @@ class PostController extends Controller
 					} else {
 						abort(404);
 					}
-
 					break;
-				case 'delete':
-					// return view('post.delete');
+				case 'categories':
+					return view('post.categories');
 					break;
+				
+				case 'tags':
+					return view('post.tags');
+					break;
+				
+				case 'trash':
+					$trash = Post::where('status', 1)->get();
+					return view('post.trash',  ['posts' => $trash]);
+					break;
+				
 				default:
 					abort(404);
 			}
 		} else {
+			// status 0 is show
+			// status 1 is hidden post
 			$posts = Post::where('status', 0)->get();
 			return view('post.index', ['posts' => $posts]);
 		}
 	}
 
-	public function categories()
-	{
-		// $posts = Post::get();
-		return view('post.categories');
-	}
+	// public function categories()
+	// {
+	// 	// $posts = Post::get();
+	// 	return view('post.categories');
+	// }
 
-	public function tags()
-	{
-		// $posts = Post::get();
-		return view('post.tags');
-	}
+	// public function tags()
+	// {
+	// 	// $posts = Post::get();
+	// 	return view('post.tags');
+	// }
 
 	public function submitPost(Request $request)
 	{
@@ -160,6 +171,26 @@ class PostController extends Controller
 			return $this->successResponse(
 				[],
 				'Clone post successfully'
+			);
+		}
+		// Delete permanently
+		if ($request->option == 'delete'){
+			foreach ($request->post_slug as $value ) {
+				Post::where('slug', $value)->update(['status' => 99]);
+			}
+			return $this->successResponse(
+				[],
+				'Delete to trash successfully'
+			);
+		}
+
+		if ($request->option == 'restore'){
+			foreach ($request->post_slug as $value ) {
+				Post::where('slug', $value)->update(['status' => 0]);
+			}
+			return $this->successResponse(
+				[],
+				'Restore to trash successfully'
 			);
 		}
 		
