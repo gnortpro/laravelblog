@@ -1,6 +1,7 @@
 (function ($) {
     'use strict';
     $(function () {
+
         $('.icheck input').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',
             radioClass: 'iradio_minimal',
@@ -56,12 +57,62 @@
             $('.action-single-check input[type="checkbox"]').iCheck('uncheck')
         })
 
-        // $('.action-check input[type="checkbox"]').on('ifToggled', function (event) {
-        //     // alert(event.type + ' callback');
-        //     console.log($('.action-single-check .checked input[type="checkbox"]').val())
-        // })
+        // get single checked value
+        var input_single_value_arr = [];
+        $('.action-single-check input[type="checkbox"]').on('ifChecked', function (event) {
+            input_single_value_arr.push(event.currentTarget.value)
+        })
+        $('.action-single-check input[type="checkbox"]').on('ifUnchecked', function (event) {
+            var arr_position = input_single_value_arr.indexOf(event.currentTarget.value)
+            if (arr_position > -1) {
+                input_single_value_arr.splice(arr_position, 1);
+            }
+        })
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#makePostaction').submit(function (e) {
+            e.preventDefault();
+            var option = $('#postAction').find(":selected").val();
+            var author_id = $('#author_id').val();
+            var data = {
+                option: option,
+                author_id: author_id,
+                post_slug: input_single_value_arr
+            }
+            if (input_single_value_arr.length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: $('#api_url').val() + '/api/post/action',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (res) {
+                        if (res.err == 0) {
+                            swal({
+                                title: 'Congratulations!',
+                                text: option + ' succesfully!',
+                                icon: 'success',
+                                button: {
+                                    text: "OK",
+                                    value: true,
+                                    visible: true,
+                                    className: "btn btn-primary"
+                                }
+                            }).then((value) => {
+                                if (value) {
+                                    location.reload();
+                                }
+                            })
+                        }
 
+                    },
+                });
+            }
 
+        })
 
     });
 })(jQuery);

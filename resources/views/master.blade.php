@@ -8,6 +8,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="api_token" content="{{ (Auth::user()) ? Auth::user()->api_token : '' }}">
   <base href="{{asset('')}}">
+  <input type="hidden" value="{{env('API_URL')}}" id="api_url">
   <title>Trong Blog Home</title>
   <!-- plugins:css -->
 

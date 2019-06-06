@@ -7,6 +7,7 @@
             <div class="mb-3 form-inline">
                {{-- <h4 class="card-title">List Posts</h4> --}}
                <a title="Add New Post" class="btn btn-success ml-2" href="{{route('posts',['action' => 'add'])}}"><i class="mdi mdi-plus menu-icon"></i>New Post</a>
+               <a title="Trash" class="btn btn-danger ml-2" href="{{route('posts',['action' => 'add'])}}"><i class="mdi mdi-delete menu-icon"></i>Trash</a>
             </div>
 
             <div class="card-description">
@@ -14,14 +15,15 @@
                   <tbody>
                      <tr>
                         <td>
-                           <div class=" form-inline">
-                              <select class="form-control border-primary" id="exampleSelectPrimary">
+                           <form class="form-inline" id="makePostaction">
+                              <select class="form-control border-primary" id="postAction">
                                  <option value="" selected disabled>Make an action</option>
-                                 <option>Move to trash</option>
-                                 <option>Clone</option>
+                                 <option value="movetotrash">Move to trash</option>
+                                 <option value="clone">Clone</option>
                               </select>
+                           <input type="hidden" id="author_id" value="{{Auth::user()->id}}">
                               <button class="btn btn-danger ml-2">Apply</button>
-                           </div>
+                           </form>
                         </td>
                         <td>
                            <div class="">
@@ -115,8 +117,8 @@
 
          </div>
          <div class="modal-footer">
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
+               <button type="button" class="btn btn-danger " data-dismiss="modal" aria-label="Close">
+                     Close
                    </button>
          </div>
       </div>

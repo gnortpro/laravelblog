@@ -37,7 +37,7 @@ class PostController extends Controller
 					abort(404);
 			}
 		} else {
-			$posts = Post::get();
+			$posts = Post::where('status', 0)->get();
 			return view('post.index', ['posts' => $posts]);
 		}
 	}
@@ -124,4 +124,47 @@ class PostController extends Controller
 			'Preview post successfully'
 		);
 	}
+
+	
+	public function actionPost(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'option' => 'required',
+			'post_slug' => 'required',
+			'author_id' => 'required'
+		]);
+		if ($validator->fails()) {
+			return $this->errorResponse(self::ERROR_BAD_REQUEST, [], self::getErrorMessage(self::ERROR_BAD_REQUEST));
+		}
+		if ($request->option == 'movetotrash'){
+			foreach ($request->post_slug as $value ) {
+				Post::where('slug', $value)->update(['status' => 1]);
+			}
+			return $this->successResponse(
+				[],
+				'Move to trash successfully'
+			);
+		}
+		if  ($request->option == 'clone'){
+			foreach ($request->post_slug as $value ) {
+				$post = Post::where('slug', $value)->first();
+				$clone = new Post([
+					'name' => $post->name,
+					'author_id' => $request->author_id,
+					'content' => $post->content,
+					'thumbnail' => $post->thumbnail,
+					'slug' => $post->slug.'-clone-'.time()
+				]);
+				$clone->save();
+			}
+			return $this->successResponse(
+				[],
+				'Clone post successfully'
+			);
+		}
+		
+		
+	}
+
+
 }
