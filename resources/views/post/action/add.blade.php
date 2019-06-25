@@ -107,7 +107,7 @@
                }
                $.ajax({
                   type: "POST",
-                  url: '<?php echo env('API_URL'); ?>/api/post/submitPost',
+                  url: '<?php echo env('API_URL'); ?>/post/submitPost',
                   data: JSON.stringify(data),
                   dataType: 'json',
                   contentType: 'application/json',

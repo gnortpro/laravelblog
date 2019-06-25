@@ -9,10 +9,6 @@ use Validator;
 
 class PostController extends Controller
 {
-	public function __construct()
-	{
-		// $this->middleware('auth');
-	}
 	public function index(Request $request, $slug = null)
 	{
 		if (null != $request->query('action')) {

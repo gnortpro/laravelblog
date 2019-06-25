@@ -110,7 +110,7 @@
 
                         $.ajax({
                             type: "POST",
-                            url: $('#api_url').val() + '/api/post/action',
+                            url: $('#api_url').val() + '/post/action',
                             data: JSON.stringify(data),
                             dataType: 'json',
                             contentType: 'application/json',

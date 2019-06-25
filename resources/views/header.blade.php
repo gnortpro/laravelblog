@@ -125,7 +125,7 @@
                <i class="mdi mdi-cached mr-2 text-success"></i>
                Activity Log
              </a>
-             <a class="dropdown-item logoutButton" href="">
+             <a class="dropdown-item logoutButton" href="/logout">
                <i class="mdi mdi-logout mr-2 text-primary"></i>
                Log Out
              </a>
