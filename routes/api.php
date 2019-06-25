@@ -22,7 +22,7 @@ Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
 Route::post('/logout', 'AuthController@logout');
 
-Route::group(['prefix' => 'post'], function () {
+Route::group(['prefix' => 'post','middleware' => 'auth:api'], function () {
     Route::post('submitPost', 'PostController@submitPost');
     Route::post('editPost', 'PostController@editPost');
     Route::post('previewPost', 'PostController@previewPost');
